@@ -81,6 +81,9 @@
       </a-row>
     </div>
     <item ref="item" :optionData='option' :questionType='questionType'></item>
+    <a-modal title="预览" width='1200px' :visible="viewModal">
+      <iframe  :src="liveUrl+url"  type="application/x-google-chrome-pdf" width="100%" height="700px" />
+    </a-modal >
   </div>
 </template>
 
@@ -112,6 +115,7 @@ export default {
       headers: {
         authorization: 'authorization-text'
       },
+      liveUrl:'https://view.officeapps.live.com/op/view.aspx?src=',
       action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
       da: {
         examId: 1,
@@ -153,7 +157,10 @@ export default {
         { name: 'materialList', required: 'true' },
         { name: 'resultFile', required: 'true' },
         { name: 'options', required: 'true'}
-      ]
+      ],
+      url:'',
+      viewModal:false
+
     }
   },
   methods: {
@@ -210,6 +217,10 @@ export default {
     handleMenuClick(e, index) {
       if (e.key === 'delete') {
         this.da.testInfo.materialList.splice(index, 1)
+      }
+      if(e.key === 'view'){
+          this.url = this.da.testInfo.materialList[index].url;
+          this.viewModal = true;
       }
     },
     returnData() {}
